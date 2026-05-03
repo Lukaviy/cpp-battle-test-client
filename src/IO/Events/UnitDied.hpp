@@ -6,7 +6,7 @@ namespace sw::io
 {
 	struct UnitDied
 	{
-		constexpr static const char* Name = "UNIT_DIED";
+		constexpr static auto Name = "UNIT_DIED";
 
 		uint32_t unitId{};
 

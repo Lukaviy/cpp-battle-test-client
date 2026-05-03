@@ -8,8 +8,9 @@ namespace sw
 	{
 	public:
 		explicit CommandParserVisitor(std::istream& stream) :
-				_stream(stream)
-		{}
+			_stream(stream)
+		{
+		}
 
 		template <class TField>
 		void visit(const char*, TField& field)

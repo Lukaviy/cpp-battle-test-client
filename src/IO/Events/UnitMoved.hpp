@@ -6,7 +6,7 @@ namespace sw::io
 {
 	struct UnitMoved
 	{
-		constexpr static const char* Name = "UNIT_MOVED";
+		constexpr static auto Name = "UNIT_MOVED";
 
 		uint32_t unitId{};
 		uint32_t x{};

@@ -6,7 +6,7 @@ namespace sw::io
 {
 	struct MarchStarted
 	{
-		constexpr static const char* Name = "MARCH_STARTED";
+		constexpr static auto Name = "MARCH_STARTED";
 
 		uint32_t unitId{};
 		uint32_t x{};

@@ -7,7 +7,7 @@ namespace sw::io
 {
 	struct UnitSpawned
 	{
-		constexpr static const char* Name = "UNIT_SPAWNED";
+		constexpr static auto Name = "UNIT_SPAWNED";
 
 		uint32_t unitId{};
 		std::string unitType{};

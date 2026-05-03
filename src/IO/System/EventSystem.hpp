@@ -9,13 +9,21 @@ namespace sw
 	class EventSystem
 	{
 	public:
+		explicit EventSystem(std::ostream& stream)
+			: _stream(stream)
+		{
+		}
+
 		template <class TEvent>
 		void event(const uint64_t tick, TEvent&& event)
 		{
-			std::cout << "[" << tick << "] " << TEvent::Name << " ";
-			PrintFieldVisitor visitor(std::cout);
+			_stream << "[" << tick << "] " << TEvent::Name << " ";
+			PrintFieldVisitor visitor(_stream);
 			event.visit(visitor);
-			std::cout << std::endl;
+			_stream << std::endl;
 		}
+
+	private:
+		std::ostream& _stream;
 	};
 }

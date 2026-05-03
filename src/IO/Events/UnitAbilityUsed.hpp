@@ -7,7 +7,7 @@ namespace sw::io
 {
 	struct UnitAbilityUsed
 	{
-		constexpr static const char* Name = "UNIT_ABILITY_USED";
+		constexpr static auto Name = "UNIT_ABILITY_USED";
 
 		uint32_t abilityUnitId{};
 		std::string abilityName{};

@@ -6,7 +6,7 @@ namespace sw::io
 {
 	struct SpawnSwordsman
 	{
-		constexpr static const char* Name = "SPAWN_SWORDSMAN";
+		constexpr static auto Name = "SPAWN_SWORDSMAN";
 
 		uint32_t unitId{};
 		uint32_t x{};

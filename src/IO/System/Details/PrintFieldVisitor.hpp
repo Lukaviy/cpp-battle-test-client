@@ -8,8 +8,9 @@ namespace sw
 	{
 	public:
 		explicit PrintFieldVisitor(std::ostream& stream) :
-				_stream(stream)
-		{}
+			_stream(stream)
+		{
+		}
 
 		template <typename T>
 		void visit(const char* name, const T& value)
@@ -20,5 +21,4 @@ namespace sw
 	private:
 		std::ostream& _stream;
 	};
-
 }

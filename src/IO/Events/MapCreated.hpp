@@ -6,7 +6,7 @@ namespace sw::io
 {
 	struct MapCreated
 	{
-		constexpr static const char* Name = "MAP_CREATED";
+		constexpr static auto Name = "MAP_CREATED";
 
 		uint32_t width{};
 		uint32_t height{};

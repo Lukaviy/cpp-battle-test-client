@@ -1,8 +1,9 @@
-#include "Game/World.hpp"
+#include "Game/Core/Simulation/World.hpp"
+#include "Game/Core/Simulation/CommandBuffer.hpp"
+#include "Game/Core/Registrator.hpp"
+#include "Game/Features/Registry.hpp"
 #include "IO/Commands/CreateMap.hpp"
 #include "IO/Commands/March.hpp"
-#include "IO/Commands/SpawnHunter.hpp"
-#include "IO/Commands/SpawnSwordsman.hpp"
 #include "IO/System/CommandParser.hpp"
 #include "IO/System/EventSystem.hpp"
 
@@ -24,34 +25,35 @@ int main(int argc, char** argv)
 		throw std::runtime_error("Error: File not found - " + std::string(argv[1]));
 	}
 
-	EventSystem events;
-	game::World world(events);
+	EventSystem events{std::cout};
 
+	core::EventHandlerRegistry eventRegistry;
+	std::mt19937 random;
+	core::World world{random};
 	io::CommandParser parser;
-	parser.add<io::CreateMap>([&world](auto command) { world.createMap(command.width, command.height); });
-	parser.add<io::SpawnSwordsman>(
-			[&world](auto command)
+
+	core::Registrator registrator{parser, world, events, eventRegistry};
+	game::registerAll(registrator);
+
+	world.setEventRegistry(std::move(eventRegistry).createEventHandlerSystem());
+
+	parser.add<io::CreateMap>(
+			[&world](const io::CreateMap& command)
 			{
-				world.spawnUnit(
-						command.unitId,
-						{command.x, command.y},
-						command.hp,
-						command.strength,
-						command.chance,
-						command.rending);
+				world.createMap(command.width, command.height);
 			});
-	parser.add<io::SpawnHunter>(
-			[](auto command)
+
+	parser.add<io::March>(
+			[&world, &events](const io::March& command)
 			{
-				//TODO
+				world.march({command.targetX, command.targetY}, game::UnitId{command.unitId}, events);
 			});
-	parser.add<io::March>([&world](auto command) { world.march(command.unitId, {command.targetX, command.targetY}); });
 
 	parser.parse(file);
 
 	while (!world.isGameOver())
 	{
-		world.step();
+		world.round(events);
 	}
 
 	return 0;
